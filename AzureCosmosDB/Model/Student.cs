@@ -21,7 +21,7 @@ public sealed class Student : IIdentifiable
     private static readonly DateTime _fromDate = _toDate.AddYears(-90);
 
     private static readonly Random _random     = new Random();
-    private static readonly string[] _subjects = { "English", "Mathematics", "Physics", "Chemistry", "Spanish" };
+    private static readonly string[] _subjects = ["English", "Mathematics", "Physics", "Chemistry", "Spanish"];
 
     [JsonProperty("id")]
     public Guid Id { get; set; }
@@ -70,17 +70,24 @@ public sealed class Student : IIdentifiable
 
     private static ICollection<string> shuffleSubjects()
     {
-        var list = new List<string>(_subjects);
+        int length = _random.Next(_subjects.Length);
 
-        for (int n = list.Count - 1; n > 0; n--)
-        {
-            int swapIndex = _random.Next(n + 1);
-
-            (list[n], list[swapIndex]) = (list[swapIndex], list[n]);
-        }
-
-        return list.Take(_random.Next(_subjects.Length)).ToList();
+        return _random.GetItems(_subjects, length);
     }
+
+    //private static ICollection<string> shuffleSubjects_BeforeNet8()
+    //{
+    //    var list = new List<string>(_subjects);
+
+    //    for (int n = list.Count - 1; n > 0; n--)
+    //    {
+    //        int swapIndex = _random.Next(n + 1);
+
+    //        (list[n], list[swapIndex]) = (list[swapIndex], list[n]);
+    //    }
+
+    //    return list.Take(_random.Next(_subjects.Length)).ToList();
+    //}
 
     private static DateTime getRandomDate(DateTime from, DateTime to)
     {
