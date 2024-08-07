@@ -16,7 +16,7 @@ public static class Program
             string connectionString = Environment.GetEnvironmentVariable("COSMOS_CONNECTION_STRING")
                 ?? throw new NullReferenceException("Missing CosmosDB connection string.");
 
-            var cosmosClient = new CosmosClient(connectionString);
+            using var cosmosClient = new CosmosClient(connectionString);
 
             Database database = await cosmosClient.CreateDatabaseIfNotExistsAsync("PlayingWithCosmosDB");
 
