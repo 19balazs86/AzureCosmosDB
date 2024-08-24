@@ -13,7 +13,8 @@ This is a .NET console application that serves as a playground to try out Azure 
 - Pagination
   - [Tips and Tricks for query pagination](https://devblogs.microsoft.com/cosmosdb/tips-tricks-query-pagination) 📚*MS DevBlogs*
   - [Examples](https://github.com/Azure/azure-cosmos-dotnet-v3/blob/master/Microsoft.Azure.Cosmos.Samples/Usage/Queries/Program.cs) 👤*Azure*
-- [Data Explorer](https://cosmos.azure.com/) 📚*Web interface*
+- [Data Explorer](https://cosmos.azure.com) 📚*Web interface*
+- [Building planet scale apps, best practices](https://youtu.be/QbBSL2oBW1A) 📽️*1h:13m VS-Live/Justine Cocchi*
 
 #### In the example you can find
 - Repository with CRUD operations and examples of using it
