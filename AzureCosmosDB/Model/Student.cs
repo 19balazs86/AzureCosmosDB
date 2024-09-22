@@ -14,6 +14,7 @@ public sealed class Student : IIdentifiable
 {
     public const string PartitionKeyPath = "/GradeLevel";
 
+    [JsonIgnore]
     public PartitionKey PartitionKey => new PartitionKey(GradeLevel);
 
     private static readonly DateTime _now      = DateTime.Now;
