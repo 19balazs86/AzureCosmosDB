@@ -13,7 +13,7 @@ public static class Program
     {
         try
         {
-            string connectionString = Environment.GetEnvironmentVariable("COSMOS_CONNECTION_STRING")
+            string connectionString = Environment.GetEnvironmentVariable("CUSTOMCONNSTR_CosmosDB")
                 ?? throw new NullReferenceException("Missing CosmosDB connection string.");
 
             using var cosmosClient = new CosmosClient(connectionString);
