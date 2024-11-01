@@ -5,17 +5,17 @@ namespace AzureCosmosDB.Types;
 [DebuggerDisplay("HasMoreItems = {HasMoreItems}")]
 public sealed class PageResult<TEntity>
 {
-    public IEnumerable<TEntity> Items { get; private set; }
+    public IEnumerable<TEntity> Items { get; private set; } = [];
 
     public string? ContinuationToken { get; private set; }
 
     public bool HasMoreItems => !string.IsNullOrWhiteSpace(ContinuationToken);
 
-    public static PageResult<TEntity> Empty => new PageResult<TEntity>();
+    public static PageResult<TEntity> Empty => new();
 
-    public PageResult()
+    private PageResult()
     {
-        Items = Enumerable.Empty<TEntity>();
+
     }
 
     public PageResult(IEnumerable<TEntity> items, string? continuationToken)

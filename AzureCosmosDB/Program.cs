@@ -7,8 +7,6 @@ namespace AzureCosmosDB;
 
 public static class Program
 {
-    private const string _containerName = nameof(Student);
-
     public static async Task Main(string[] args)
     {
         try
@@ -25,7 +23,7 @@ public static class Program
             Container container = await database.deleteAndCreateContainerAsync();
             //Container container = database.GetContainer(_containerName);
 
-            IStudentRepository repository = new StudentRepository(container);
+            var repository = new StudentRepository(container);
 
             // --> Seed.
             await insertStudents(repository);
@@ -86,7 +84,7 @@ public static class Program
     {
         try
         {
-            Container container = database.GetContainer(_containerName);
+            Container container = database.GetContainer(Student.ContainerName);
 
             await container.DeleteContainerAsync();
         }
@@ -95,8 +93,8 @@ public static class Program
             // GetContainer throws exception if it does not exists
         }
 
-        return await database.CreateContainerAsync(_containerName, partitionKeyPath: Student.PartitionKeyPath);
-        //return await database.CreateContainerIfNotExistsAsync(_containerName, partitionKeyPath: Student.PartitionKeyPath);
+        return await database.CreateContainerAsync(Student.ContainerName, partitionKeyPath: Student.PartitionKeyPath);
+        //return await database.CreateContainerIfNotExistsAsync(Student.ContainerName, partitionKeyPath: Student.PartitionKeyPath);
     }
 
     private static async Task insertStudents(IStudentRepository repository)

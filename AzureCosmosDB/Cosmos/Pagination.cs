@@ -25,7 +25,9 @@ public static class Pagination
     private static IQueryable<T> initQueryable<T>(this Container container, PageQuery<T> query)
     {
         if (query.FilterDefinition is null)
+        {
             throw new NullReferenceException("PageQuery.FilterDefinition can not be null.");
+        }
 
         var requestOptions = new QueryRequestOptions
         {
@@ -38,7 +40,9 @@ public static class Pagination
             .Where(query.FilterDefinition);
 
         if (query.SortDefinition is not null)
+        {
             queryableItems = query.SortDefinition(queryableItems);
+        }
 
         return queryableItems;
     }
@@ -47,13 +51,13 @@ public static class Pagination
     {
         using FeedIterator<P> feedIterator = queryableItems.ToFeedIterator();
 
-        if (feedIterator.HasMoreResults)
+        if (!feedIterator.HasMoreResults)
         {
-            FeedResponse<P> feedResponse = await feedIterator.ReadNextAsync();
-
-            return new PageResult<P>(feedResponse.Resource, feedResponse.ContinuationToken);
+            return PageResult<P>.Empty;
         }
 
-        return PageResult<P>.Empty;
+        FeedResponse<P> feedResponse = await feedIterator.ReadNextAsync();
+
+        return new PageResult<P>(feedResponse.Resource, feedResponse.ContinuationToken);
     }
 }

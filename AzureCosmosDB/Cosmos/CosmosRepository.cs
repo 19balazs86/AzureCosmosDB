@@ -1,18 +1,13 @@
+using System.Linq.Expressions;
 using AzureCosmosDB.Types;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
-using System.Linq.Expressions;
 
 namespace AzureCosmosDB.Cosmos;
 
-public class CosmosRepository<TEntity> : ICosmosRepository<TEntity> where TEntity : IIdentifiable
+public class CosmosRepository<TEntity>(Container _container) : ICosmosRepository<TEntity> where TEntity : IIdentifiable
 {
-    protected readonly Container _container;
-
-    public CosmosRepository(Container container)
-    {
-        _container = container;
-    }
+    protected readonly Container _container = _container;
 
     public virtual async Task<ItemResponse<TEntity>> ReadItemAsync(Guid id, PartitionKey partitionKey)
     {
@@ -28,7 +23,9 @@ public class CosmosRepository<TEntity> : ICosmosRepository<TEntity> where TEntit
         while (feedIterator.HasMoreResults)
         {
             foreach (TEntity entity in await feedIterator.ReadNextAsync())
+            {
                 yield return entity;
+            }
         }
     }
 
@@ -44,7 +41,9 @@ public class CosmosRepository<TEntity> : ICosmosRepository<TEntity> where TEntit
         while (feedIterator.HasMoreResults)
         {
             foreach (TEntity entity in await feedIterator.ReadNextAsync())
+            {
                 yield return entity;
+            }
 
             //FeedResponse<TEntity> feedResponse = await feedIterator.ReadNextAsync();
 
@@ -75,7 +74,9 @@ public class CosmosRepository<TEntity> : ICosmosRepository<TEntity> where TEntit
         TransactionalBatch batch = _container.CreateTransactionalBatch(partitionKey);
 
         foreach (TEntity entity in entities)
+        {
             batch.CreateItem(entity);
+        }
 
         using TransactionalBatchResponse batchResponse = await batch.ExecuteAsync();
 
@@ -96,7 +97,7 @@ public class CosmosRepository<TEntity> : ICosmosRepository<TEntity> where TEntit
     {
         using ResponseMessage response = await _container.ReadItemStreamAsync(entity.Id.ToString(), entity.PartitionKey);
 
-        return response.IsSuccessStatusCode == true;
+        return response.IsSuccessStatusCode;
     }
 
     public virtual async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, PartitionKey? partitionKey = null)

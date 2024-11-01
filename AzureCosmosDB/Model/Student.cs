@@ -12,7 +12,8 @@ public enum PreferredLanguage
 
 public sealed class Student : IIdentifiable
 {
-    public const string PartitionKeyPath = "/GradeLevel";
+    public static string PartitionKeyPath => "/GradeLevel";
+    public static string ContainerName    => nameof(Student);
 
     [JsonIgnore]
     public PartitionKey PartitionKey => new PartitionKey(GradeLevel);
@@ -38,19 +39,16 @@ public sealed class Student : IIdentifiable
 
     public int NumberOfMissingDays { get; set; }
 
-    public ICollection<string> Subjects { get; set; } // IEnumerable is not working
-
-    public Student()
-    {
-        Subjects = new List<string>();
-    }
+    public ICollection<string> Subjects { get; set; } = []; // IEnumerable is not working
 
     public static Student GenerateStudent(int gradeLevel, int? i = null)
     {
         if (gradeLevel is < 1 or > 12)
+        {
             throw new IndexOutOfRangeException("GradeLevel must be 1 - 12");
+        }
 
-        var dateOfBirth = getRandomDate(_fromDate, _toDate);
+        DateTime dateOfBirth = getRandomDate(_fromDate, _toDate);
 
         return new Student
         {
@@ -69,7 +67,7 @@ public sealed class Student : IIdentifiable
         return Enumerable.Range(1, count).Select(i => GenerateStudent(gradeLevel, i)).ToList();
     }
 
-    private static ICollection<string> shuffleSubjects()
+    private static string[] shuffleSubjects()
     {
         int length = _random.Next(_subjects.Length);
 
