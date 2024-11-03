@@ -90,11 +90,13 @@ public static class Program
         }
         catch
         {
-            // GetContainer throws exception if it does not exists
+            // GetContainer throws an exception if it does not exist
         }
 
-        return await database.CreateContainerAsync(Student.ContainerName, partitionKeyPath: Student.PartitionKeyPath);
-        //return await database.CreateContainerIfNotExistsAsync(Student.ContainerName, partitionKeyPath: Student.PartitionKeyPath);
+        // Fluent ContainerBuilder: https://github.com/19balazs86/PlayingWithGeospatial/blob/master/GeospatialWeb/Services/CosmosDB/PoiServiceCosmos.cs#L158
+
+        return await database.CreateContainerAsync(Student.ContainerName, Student.PartitionKeyPath);
+        // return await database.CreateContainerIfNotExistsAsync(Student.ContainerName, Student.PartitionKeyPath);
     }
 
     private static async Task insertStudents(IStudentRepository repository)
