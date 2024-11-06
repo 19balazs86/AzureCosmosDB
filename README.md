@@ -18,6 +18,7 @@
   - [Tips and Tricks for query pagination](https://devblogs.microsoft.com/cosmosdb/tips-tricks-query-pagination) 📚*MS DevBlogs*
   - [Examples](https://github.com/Azure/azure-cosmos-dotnet-v3/blob/master/Microsoft.Azure.Cosmos.Samples/Usage/Queries/Program.cs) 👤*Azure - Examples for pagination and other features as well*
 - [Data Explorer](https://cosmos.azure.com) 📚*Web interface*
+- [Triggering an Azure Function from the CosmosDB Change Feed](https://youtu.be/LPx2vK50Th0) 📽️*14 min - Gui Ferreira*
 - [Building planet scale apps, best practices](https://youtu.be/QbBSL2oBW1A) 📽️*1h:13m VS-Live/Justine Cocchi*
 
 ## In the example provided, you can find
